@@ -25,7 +25,7 @@ void draw()
 	fill(0);
 	ellipse(300,300,100,100);
 	for(int i=0; i<stars.length; i++){
-		if(stars[i].isOddball() == true)
+		if(stars[i] instanceof OddballParticle)
 			stars[i].show();
 	}
 }
@@ -44,7 +44,6 @@ interface Particle
 	public void move();
 	public void show();
 	public void restart();
-	public boolean isOddball();
 }
 
 class NormalParticle implements Particle
@@ -86,8 +85,16 @@ class NormalParticle implements Particle
 		ellipse((float)x, (float)y, sizeN,sizeN);
 	}
 	public void restart(){
-		x=Math.random()*700-50;
-		y=Math.random()*700-50;
+		while((x>0 && x<600) || (y>0 && y<600)){
+			y= Math.random()*1000-200;
+			x= Math.random()*1000-200;
+		}
+		if(x<0 || x>600){
+			y= Math.random()*1000-200;
+		}
+		if(y<0 || y>600){
+			x= Math.random()*1000-200;
+		}
 		distance = dist((float)x,(float)y,300.0,300.0);
 		if(y>300){
 			if(x>300)
@@ -109,8 +116,12 @@ class NormalParticle implements Particle
 		if(dist((float)x,(float)y,300.0,300.0)<50 || x>700 || x<-100 || y>700 || y<-100)
 			restart();
 	}
-	public boolean isOddball(){
-		return false; //only for Oddball
+	double highRandom(){
+		double a = 0;
+		while(a<600 && a>-600){
+			a= Math.random()*1400-700;
+		}
+		return a;
 	}
 }
 
@@ -140,9 +151,6 @@ class OddballParticle implements Particle
 		if(x<-50 || x>650 || y<-50 || y>650)
 			restart();
 	}
-	public boolean isOddball(){
-		return true; //It's Odd!
-	}
 }
 class JumboParticle extends NormalParticle
 {
@@ -152,8 +160,8 @@ class JumboParticle extends NormalParticle
 		col = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
 	}
 	public void restart(){
-		x=Math.random()*700-50;
-		y=Math.random()*700-50;
+		x=highRandom();
+		y=highRandom();
 		distance = dist((float)x,(float)y,300.0,300.0);
 		if(y>300){
 			if(x>300)
