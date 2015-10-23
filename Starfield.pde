@@ -116,13 +116,6 @@ class NormalParticle implements Particle
 		if(dist((float)x,(float)y,300.0,300.0)<50 || x>700 || x<-100 || y>700 || y<-100)
 			restart();
 	}
-	double highRandom(){
-		double a = 0;
-		while(a<600 && a>-600){
-			a= Math.random()*1400-700;
-		}
-		return a;
-	}
 }
 
 class OddballParticle implements Particle
@@ -160,8 +153,16 @@ class JumboParticle extends NormalParticle
 		col = color((int)(Math.random()*256),(int)(Math.random()*256),(int)(Math.random()*256));
 	}
 	public void restart(){
-		x=highRandom();
-		y=highRandom();
+		while((x>0 && x<600) || (y>0 && y<600)){
+			y= Math.random()*1000-200;
+			x= Math.random()*1000-200;
+		}
+		if(x<0 || x>600){
+			y= Math.random()*1000-200;
+		}
+		if(y<0 || y>600){
+			x= Math.random()*1000-200;
+		}
 		distance = dist((float)x,(float)y,300.0,300.0);
 		if(y>300){
 			if(x>300)
