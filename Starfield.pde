@@ -2,8 +2,8 @@ Particle[] stars;
 void setup()
 {
 	size(600,600);
-	frameRate(60);
-	stars = new Particle[500];
+	frameRate(30);
+	stars = new Particle[800];
 	for(int i=0; i<stars.length; i++){
 		if(i%60==0)
 			stars[i] = new OddballParticle();
